@@ -1,0 +1,12 @@
+# --- represents this file as a playbook
+---
+# Use [space]play[space] where play is combination of hosts+tasks
+
+- hosts: all
+  gather_facts: no
+  # Become root user
+  become: yes
+  any_errors_fatal: true
+  # List of tasks to be executed
+  roles:
+    - role: access

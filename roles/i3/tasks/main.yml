@@ -1,0 +1,50 @@
+---
+# tasks file for i3
+
+- name: Add i3-gaps PPA
+  apt_repository:
+    repo: ppa:kgilmer/speed-ricer
+
+- name: Install Packages
+  apt:
+    name: "{{ packages }}"
+  vars:
+    packages:
+      - i3-gaps
+      - nitrogen
+      - rofi
+      - feh
+      - sakura
+
+- name: Ensures directories exist
+  file:
+    path: "~/.config/i3"
+    state: directory
+  become: no
+
+- name: Copy config files
+  copy:
+    src: "{{ item }}"
+    dest: "~/.config/i3/{{ item | basename }}"
+  with_fileglob:
+    - ../files/i3/*
+  become: no
+
+- name: Copy Wallpaper
+  copy:
+    src: "wallpaper.png"
+    dest: "~/wallpaper.png"
+  become: no
+
+- name: Ensures Sakura conf directories exist
+  file:
+    path: "~/.config/sakura"
+    state: directory
+  become: no
+
+- name: Copy Sakura Conf
+  copy:
+    src: "sakura.conf"
+    dest: "~/.config/sakura/sakura.conf"
+  become: no
+

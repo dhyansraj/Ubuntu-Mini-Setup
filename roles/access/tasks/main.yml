@@ -1,0 +1,16 @@
+---
+# tasks file for access
+- name: Set authorized key taken from file
+  ansible.posix.authorized_key:
+    user: "{{ ansible_user }}"
+    state: present
+    key: "{{ lookup('file', '{{ pub_user }}.pub') }}"
+
+- name: Remove authorized key
+  ansible.posix.authorized_key:
+    user: "{{ ansible_user }}"
+    state: absent
+    key: "{{ lookup('file', '{{ pub_user }}.pub') }}"
+  tags:
+    - never
+    - reset

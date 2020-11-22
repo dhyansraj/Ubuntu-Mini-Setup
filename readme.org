@@ -1,0 +1,66 @@
+* Pre-requisite
+** VirtualBox Setup
+*** Add Second Network Adapter
+- Add host only adapter
+- Select 'Allow All' or 'Allow VMs' for Premiscuous Mode
+- Check Cable Connected
+** Guest Setup
+*** Sudo setup
+**** add user to sudo group
+#+begin_src bash
+usermod -aG sudo dhyan
+#+end_src
+**** visudo
+Add to the last line
+#+begin_src
+dhyan ALL=(ALL) NOPASSWD: ALL
+#+end_src
+*** Start Second Network Card
+**** Install net-tools
+#+begin_src bash
+sudo apt install net-tools
+#+end_src
+**** Check name of the second Network card
+#+begin_src bash :results verbatim
+ip link
+#+end_src
+
+**** Add Second Card in /etc/netplan/01-netcfg.yaml
+#+begin_src bash
+network:
+  version: 2
+  renderer: networkd
+  ethernets:
+    enp0s3:
+      dhcp4: yes
+    enp0s8:
+      dhcp4: yes
+#+end_src
+
+**** Install SSH Server
+#+begin_src bash
+sudo apt install openssh-server
+sudo systemctl enable sshd
+sudo systemctl start sshd
+#+end_src
+
+**** Reboot
+*** Add public key in host
+**** Get IP
+#+begin_src bash
+ifconfig
+#+end_src
+**** Update hosts file
+**** Run Ansible script
+#+begin_src bash
+ansible-playbook -i environments/dev -u dhyan addKey.yml -e "pub_user=dhyan" --ask-pass
+#+end_src
+*** Update ssh config
+** Run Ansible Script
+#+begin_src bash
+ansible-playbook -i environments/dev -u dhyan --private-key=~/.ssh/id_rsa setup.yml
+#+end_src
+** Post Setup
+*** Insert Guest Additions CD Image from Virtual Box Menu
+*** Run nautilus and open Guest Additions location in terminal
+*** Run VBoxLinuxAdditions.run

@@ -1,0 +1,60 @@
+- name: Check if Emacs exists
+  command: "which emacs"
+  register: emacs_exists
+  ignore_errors: yes
+
+- name: Install and Configure Emacs
+  block:
+    - name: Add emacs PPA
+      apt_repository:
+        repo: ppa:kelleyk/emacs
+
+    - name: Install Emacs
+      apt:
+        name: "{{ packages }}"
+      vars:
+        packages:
+          - emacs27
+          - aspell
+          - aspell-en
+          - latexmk
+
+
+    - name: Ensures directories exists
+      file:
+        path: "{{ item }}"
+        state: directory
+      with_items:
+        - "~/workspace/github"
+        - ".emacs.d"
+      become: no
+
+    - name: Use custom emacs conf
+      template:
+        src: ".emacs"
+        dest: "~/.emacs"
+      become: no
+
+    - name: Copy current user specific files
+      copy:
+        src: "{{ item }}"
+        dest: "{{ item }}"
+      become: no
+      with_items:
+        - "~/.emacs.d/.persistent-scratch"
+        - "~/.emacs.d/recentf"
+
+    - name: Copy gtk window decoration
+      copy:
+        src: "gtk-3.0"
+        dest: "~/.config/gtk-3.0"
+      become: no
+
+    - name: Clone my-emacs repo
+      git:
+        repo: "https://github.com/dhyansraj/my-emacs.git"
+        dest: "~/workspace/github/my-emacs"
+        version: master
+        force: yes
+      become: no
+  when: emacs_exists.rc != 0

@@ -1,0 +1,68 @@
+---
+# tasks file for packages
+
+- name: Upgrade OS
+  apt:
+    update_cache: yes
+    upgrade: full
+
+- name: Install Base Packages
+  apt:
+    name: "{{ packages }}"
+  vars:
+    packages:
+      - linux-generic-hwe-18.04
+      - xserver-xorg-hwe-18.04
+      - python3
+      - xorg
+      - nautilus
+      - gcc
+      - make
+      - perl
+      - xsel
+      - build-essential
+      - "linux-headers-{{ ansible_kernel }}"
+      - unzip
+      - gdm3
+      - fonts-font-awesome
+      - curl
+      - wget
+      - git
+
+- name: Install User Packages
+  apt:
+    name: "{{ packages }}"
+  vars:
+    packages:
+      - openjdk-11-jdk
+
+- name: Uninstall User Packages
+  apt:
+    name: "{{ packages }}"
+    state: absent
+  vars:
+    packages:
+
+- name: Install Docker
+  include_role:
+    name: packages
+    tasks_from: docker
+
+- name: Install Chrome
+  apt:
+    deb: https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+
+- name: Install Netbeans
+  include_role:
+    name: packages
+    tasks_from: netbeans
+
+- name: Install Emacs
+  include_role:
+    name: packages
+    tasks_from: emacs
+
+- name: Setup Python Virtual Env
+  include_role:
+    name: packages
+    tasks_from: pyenv

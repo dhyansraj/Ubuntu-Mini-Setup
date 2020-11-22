@@ -1,0 +1,41 @@
+# --- represents this file as a playbook
+---
+# Use [space]play[space] where play is combination of hosts+tasks
+
+# - hosts: all
+#   gather_facts: no
+
+#   tasks:
+#     - name: Test
+#       debug:
+#         msg: "{{ test.split() | last }}"
+#       vars:
+#         test: "Python 3.6.10"
+
+  
+- hosts: all
+  gather_facts: yes
+  # Become root user
+  become: yes
+  any_errors_fatal: true
+  # List of tasks to be executed
+  roles:
+    - packages
+    - i3
+    - fonts
+    - settings
+  post_tasks:
+    - name: Copy SSH config and keys
+      copy:
+        src: "{{ item }}"
+        dest: "~/.ssh/{{ item | basename }}"
+        mode: "600"
+      with_fileglob:
+        - "~/.ssh/*"
+      become: no
+      tags:
+        - never
+        - ssh
+    - name: Remove dependencies that are no longer required
+      apt:
+        autoremove: yes

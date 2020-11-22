@@ -1,0 +1,30 @@
+- name: Check if Netbeans exists
+  command: "which netbeans"
+  register: netbeans_exists
+  ignore_errors: yes
+
+- name: Install and Configure Netbeans
+  block:
+    - name: Download Script
+      get_url:
+        url: "https://apache.claz.org/netbeans/netbeans/12.1/Apache-NetBeans-12.1-bin-linux-x64.sh"
+        dest: "/tmp"
+        mode: "+x"
+    - name: Install Netbeans
+      command: "./Apache-NetBeans-12.1-bin-linux-x64.sh --silent"
+      args:
+        chdir: "/tmp"
+      become: no
+
+    - name: Add Netbeans to PATH
+      file:
+        src: "~{{ ansible_user }}/netbeans-12.1/netbeans/bin/netbeans"
+        dest: "/usr/local/bin/netbeans"
+        state: link
+
+    - name: Use custom netbeans conf
+      copy:
+        src: "netbeans.conf"
+        dest: "~/netbeans-12.1/netbeans/etc/netbeans.conf"
+      become: no
+  when: netbeans_exists.rc != 0

@@ -1,0 +1,20 @@
+---
+# tasks file for settings
+
+- name: Enable Automatic Login
+  lineinfile:
+    path: /etc/gdm3/custom.conf
+    regexp: '^#  AutomaticLoginEnable = true'
+    line: 'AutomaticLoginEnable = true'
+
+- name: Change the user to dhyan
+  lineinfile:
+    path: /etc/gdm3/custom.conf
+    regexp: '^#  AutomaticLogin = user1'
+    line: 'AutomaticLogin = dhyan'
+
+# - name: Change default target to graphical.target
+#   file:
+#     src: /usr/lib/systemd/system/graphical.target
+#     dest: /etc/systemd/system/default.target
+#     state: link

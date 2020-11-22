@@ -1,0 +1,22 @@
+---
+# tasks file for fonts
+- name: Install Fonts
+  apt:
+    name: "{{ packages }}"
+  vars:
+    packages:
+      - fonts-noto
+
+- name: Download Jetbrains fonts
+  get_url:
+    url: "https://download.jetbrains.com/fonts/JetBrainsMono-2.001.zip"
+    dest: /tmp
+
+- name: Extract Jetbrains fonts
+  unarchive:
+    src: "/tmp/JetBrainsMono-2.001.zip"
+    dest: /usr/share/fonts
+    remote_src: yes
+
+- name: Reload font cache
+  command: "fc-cache -f -v"
