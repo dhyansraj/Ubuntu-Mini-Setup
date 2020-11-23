@@ -1,8 +1,3 @@
-- name: Check if Emacs exists
-  command: "which emacs"
-  register: emacs_exists
-  ignore_errors: yes
-
 - name: Install and Configure Emacs
   block:
     - name: Add emacs PPA
@@ -47,7 +42,7 @@
     - name: Copy gtk window decoration
       copy:
         src: "gtk-3.0"
-        dest: "~/.config/gtk-3.0"
+        dest: "~/.config/"
       become: no
 
     - name: Clone my-emacs repo
@@ -57,4 +52,3 @@
         version: master
         force: yes
       become: no
-  when: emacs_exists.rc != 0

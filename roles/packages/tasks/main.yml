@@ -6,13 +6,22 @@
     update_cache: yes
     upgrade: full
 
-- name: Install Base Packages
+- name: Install Version Specific Packages
   apt:
     name: "{{ packages }}"
   vars:
     packages:
       - linux-generic-hwe-18.04
       - xserver-xorg-hwe-18.04
+  tags:
+    - bionic
+    - never
+
+- name: Install Base Packages
+  apt:
+    name: "{{ packages }}"
+  vars:
+    packages:
       - python3
       - xorg
       - nautilus
@@ -35,6 +44,7 @@
   vars:
     packages:
       - openjdk-11-jdk
+      - xclip
 
 - name: Uninstall User Packages
   apt:

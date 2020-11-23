@@ -1,0 +1,20 @@
+---
+# tasks file for settings
+
+- name: Copy SSH config and keys
+  copy:
+    src: "{{ item }}"
+    dest: "~/.ssh/{{ item | basename }}"
+    mode: "600"
+  with_fileglob:
+    - "~/.ssh/*"
+  become: no
+
+- name: Copy personal files
+  copy:
+    src: "{{ item }}"
+    dest: "{{ item }}"
+  with_items:
+    - "~/.bash_aliases"
+    - "~/testimage.sh"
+  become: no

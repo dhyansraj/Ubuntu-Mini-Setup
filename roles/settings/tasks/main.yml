@@ -13,8 +13,11 @@
     regexp: '^#  AutomaticLogin = user1'
     line: 'AutomaticLogin = dhyan'
 
-# - name: Change default target to graphical.target
-#   file:
-#     src: /usr/lib/systemd/system/graphical.target
-#     dest: /etc/systemd/system/default.target
-#     state: link
+- name: Add User to Virtual Box Group
+  command: "usermod -a -G vboxsf {{ ansible.user }}"
+
+- name: Setup Git user
+  command: "{{ item }}"
+  with_items:
+    - "git config --global user.name 'Dhyan Raj'"
+    - "git config --global user.email 'dhyan.raj@synechron.com'"

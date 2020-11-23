@@ -26,6 +26,7 @@
   copy:
     src: "{{ item }}"
     dest: "~/.config/i3/{{ item | basename }}"
+    mode: "+x"
   with_fileglob:
     - ../files/i3/*
   become: no

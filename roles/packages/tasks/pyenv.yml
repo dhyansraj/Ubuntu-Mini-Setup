@@ -1,7 +1,6 @@
 - name: Check if pyenv exists
-  command: "which pyenv"
-  environment:
-    PATH: '~/.pyenv/bin:{{ ansible_env.PATH }}'
+  stat:
+    path: "~/.pyenv/bin/pyenv"
   register: pyenv_exists
   ignore_errors: yes
   become: no
@@ -68,10 +67,9 @@
       environment:
         PATH: '~/.pyenv/bin:{{ ansible_env.PATH }}'
       vars:
-        pv: "{{ python_version.stdout.split() | last}}"
+        pv: "3.6.10"
       become: no
       with_items:
         - "pyenv install {{ pv }}"
         - "pyenv virtualenv {{ pv }} tff_venv_3.6"
-
-  when: pyenv_exists.rc != 0
+  when: not pyenv_exists.stat.exists
