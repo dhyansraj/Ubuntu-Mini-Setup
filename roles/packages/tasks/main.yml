@@ -45,6 +45,7 @@
     packages:
       - openjdk-11-jdk
       - xclip
+      - lua5.1
 
 - name: Uninstall User Packages
   apt:
