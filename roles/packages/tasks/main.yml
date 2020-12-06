@@ -46,6 +46,7 @@
       - openjdk-11-jdk
       - xclip
       - lua5.1
+      - imagemagick
 
 - name: Uninstall User Packages
   apt:
