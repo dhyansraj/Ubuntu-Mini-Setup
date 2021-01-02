@@ -17,4 +17,5 @@
   with_items:
     - "~/.bash_aliases"
     - "~/testimage.sh"
+    - "~/wallpaper.png"
   become: no

@@ -2,17 +2,6 @@
 ---
 # Use [space]play[space] where play is combination of hosts+tasks
 
-# - hosts: all
-#   gather_facts: no
-
-#   tasks:
-#     - name: Test
-#       debug:
-#         msg: "{{ test.split() | last }}"
-#       vars:
-#         test: "Python 3.6.10"
-
-
 - hosts: all
   gather_facts: yes
   # Become root user

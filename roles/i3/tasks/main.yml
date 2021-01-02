@@ -49,3 +49,14 @@
     dest: "~/.config/sakura/sakura.conf"
   become: no
 
+- name: Ensures Rofi themes directories exist
+  file:
+    path: "~/.local/share/rofi/themes"
+    state: directory
+  become: no
+
+- name: Copy onedark theme
+  copy:
+    src: "onedark.rasi"
+    dest: "~/.local/share/rofi/themes"
+  become: no

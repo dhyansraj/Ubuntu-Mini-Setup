@@ -6,6 +6,7 @@
   vars:
     packages:
       - fonts-noto
+      - fonts-font-awesome
 
 - name: Download Jetbrains fonts
   get_url:

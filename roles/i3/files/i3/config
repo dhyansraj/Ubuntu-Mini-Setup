@@ -31,7 +31,7 @@ bindsym $mod+Return exec sakura
 bindsym $mod+Shift+q kill
 
 # start program launcher
-bindsym $mod+d exec --no-startup-id rofi -combi-modi drun -show drun -icon-theme "Papirus" -show-icons
+bindsym $mod+d exec --no-startup-id rofi -combi-modi drun -show drun -icon-theme "Papirus" -show-icons -theme onedark
 
 # change focus
 bindsym $mod+j focus left

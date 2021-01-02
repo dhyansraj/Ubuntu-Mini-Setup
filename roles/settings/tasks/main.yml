@@ -14,7 +14,7 @@
     line: 'AutomaticLogin = dhyan'
 
 - name: Add User to Virtual Box Group
-  command: "usermod -a -G vboxsf {{ ansible.user }}"
+  command: "usermod -a -G vboxsf dhyan"
 
 - name: Setup Git user
   command: "{{ item }}"
