@@ -31,10 +31,10 @@
     - ../files/i3/*
   become: no
 
-- name: Copy Wallpaper
+- name: Copy .Xresources
   copy:
-    src: "wallpaper.png"
-    dest: "~/wallpaper.png"
+    src: ".Xresources"
+    dest: "~/.Xresources"
   become: no
 
 - name: Ensures Sakura conf directories exist
