@@ -71,5 +71,5 @@
       become: no
       with_items:
         - "pyenv install {{ pv }}"
-        - "pyenv virtualenv {{ pv }} tff_venv_3.6"
+        - "pyenv virtualenv {{ pv }} venv_default"
   when: not pyenv_exists.stat.exists

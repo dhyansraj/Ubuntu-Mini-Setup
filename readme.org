@@ -1,4 +1,4 @@
-* Pre-requisite
+* Creating VM from ISO
 ** VirtualBox Setup
 *** Add Second Network Adapter
 - Add host only adapter
@@ -56,11 +56,30 @@ ifconfig
 ansible-playbook -i environments/dev -u dhyan addKey.yml -e "pub_user=dhyan" --ask-pass
 #+end_src
 *** Update ssh config
-** Run Ansible Script
+* Import from VM Appliance
+** Import appliance from D:\VirtualBoxVms\Ubuntu Mini.ova
+** Select option to assign new mac address for all network adapters
+** Login dhyan/2105#xXf
+** ifconfig and make sure the enp0s8 has non-conflicting IP address
+*** If so, reassing IP using
+#+begin_src bash
+sudo dhclient -r enp0s8
+sudo dhclient enp0s8
+#+end_src
+
+*NOTE* May have to repeat couple of times to obtain new address
+* Run Ansible Script
+** Activate Python Virtual Env
+#+begin_src bash
+pyenv virtualenvs # list environments
+
+pyenv activate [tff_venv_3.6] # activate environment
+#+end_src
+** Run Script
 #+begin_src bash
 ansible-playbook -i environments/dev -u dhyan --private-key=~/.ssh/id_rsa setup.yml
 #+end_src
-** Post Setup
+* Post Setup
 *** Insert Guest Additions CD Image from Virtual Box Menu
 *** Run nautilus and open Guest Additions location in terminal
 *** Run VBoxLinuxAdditions.run
